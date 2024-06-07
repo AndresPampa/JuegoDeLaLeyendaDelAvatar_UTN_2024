@@ -1,5 +1,5 @@
-let ataqueJugador;
-let ataqueEnemigo;
+let ataqueJugador; //Variables globales
+let ataqueEnemigo; //Variables globales
 
 function iniciarJuego(){
     let botonPersonajeJugador = document.getElementById('boton-personaje');
@@ -81,40 +81,37 @@ function ataqueAleatorioEnemigo(){
     let ataqueAleatorio = aleatorio(1,3);
 
     if(ataqueAleatorio == 1){
-        ataqueEnemigo = 'punio';
+        ataqueEnemigo = 'Punio';
     }else if(ataqueAleatorio == 2){
         ataqueEnemigo = 'Patada';
     }else{
         ataqueEnemigo = 'Barrida';
     }
 
+    fight()
 }
 
-//ataqueAlEnemigo()
-
-function ataqueAlEnemigo(){
-    let vidasJugador = document.getElementById('vidas-jugador');
-    let vidasEnemigo = document.getElementById('vidas-enemigo');
-
-    vidasJugador = 3;
-    vidasEnemigo = 3;
-    while(vidasJugador > 0 || vidasEnemigo > 0){
-
-        if(ataqueJugador === 'Punio' && ataqueEnemigo === 'Barrida'){
-            vidasEnemigo -= 1
-            alert("GANASTE ESTA RONDA")
-        }else if(ataqueJugador === 'Patada' && ataqueEnemigo === 'Barrida'){
-            vidasJugador -= 1
-            alert("PERDISTE ESTA RONDA")
-        }else if(ataqueJugador === 'Barrida' && ataqueEnemigo === 'Barrida'){
-            alert("EMPATE")
-        }else if(ataqueJugador === 'Punio' && ataqueEnemigo === 'Patada'){
-            vidasJugador -= 1
-            alert("PERDISTE ESTA RONDA")
-        }
-        // else if(){}
+function fight(){
+    if(ataqueJugador === ataqueEnemigo){
+        crearMensaje("EMPATASTE!")
+    }else if(ataqueJugador === 'Punio' && ataqueEnemigo === 'Barrida'){
+        crearMensaje("GANASTE!")
+    }else if(ataqueJugador === 'patada' && ataqueEnemigo === 'Punio'){
+        crearMensaje("GANASTE!")
+    }else if(ataqueJugador === 'Barrida' && ataqueEnemigo === 'patada'){
+        crearMensaje("GANASTE!")
+    }else{
+        crearMensaje("PERDISTE!")
     }
-}   
+}
+
+
+function crearMensaje(resultado){
+    let seccionMensaje = document.getElementById('mensajes');//llamamos a la seccion por el ID
+    let parrafo = document.createElement('p');
+    parrafo.innerHTML = `Tu personaje atacó con todo el poder del ${ataqueJugador}, el personaje del enemigo atacó con el poder de la ${ataqueEnemigo} - ${resultado} la ronda 🎉`;
+    seccionMensaje.appendChild(parrafo);
+}
 
 
 window.addEventListener('load', iniciarJuego);
