@@ -1,3 +1,4 @@
+//Variables que no estan dentro de ninguna funcion
 let ataqueJugador; //Variables globales
 let ataqueEnemigo; //Variables globales
 
@@ -39,7 +40,7 @@ function seleccionarPersonajeJugador(){ //tarea agregar activad a la funcion al 
 }
 
 function aleatorio(min, max){
-    return Math.floor(Math.random()* (max-min) + min);
+    return Math.floor(Math.random() * (max-min) + min);
 }
 
 
@@ -78,13 +79,13 @@ function ataqueBarrida(){//modificamos la variable global ataqueJugador
 
 
 function ataqueAleatorioEnemigo(){
-    let ataqueAleatorio = aleatorio(1,3);
+    let ataqueAleatorio = aleatorio(1,4);
 
     if(ataqueAleatorio == 1){
         ataqueEnemigo = 'Punio';
     }else if(ataqueAleatorio == 2){
         ataqueEnemigo = 'Patada';
-    }else{
+    }else if(ataqueAleatorio == 3){
         ataqueEnemigo = 'Barrida';
     }
 
@@ -92,13 +93,13 @@ function ataqueAleatorioEnemigo(){
 }
 
 function fight(){
-    if(ataqueJugador === ataqueEnemigo){
+    if(ataqueJugador == ataqueEnemigo){
         crearMensaje("EMPATASTE!")
-    }else if(ataqueJugador === 'Punio' && ataqueEnemigo === 'Barrida'){
+    }else if(ataqueJugador == 'Punio' && ataqueEnemigo == 'Barrida'){
         crearMensaje("GANASTE!")
-    }else if(ataqueJugador === 'patada' && ataqueEnemigo === 'Punio'){
+    }else if(ataqueJugador == 'Patada' && ataqueEnemigo == 'Punio'){
         crearMensaje("GANASTE!")
-    }else if(ataqueJugador === 'Barrida' && ataqueEnemigo === 'patada'){
+    }else if(ataqueJugador == 'Barrida' && ataqueEnemigo == 'Patada'){
         crearMensaje("GANASTE!")
     }else{
         crearMensaje("PERDISTE!")
