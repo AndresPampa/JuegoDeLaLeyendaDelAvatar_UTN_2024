@@ -2,7 +2,17 @@
 let ataqueJugador; //Variables globales
 let ataqueEnemigo; //Variables globales
 
+let vidasJugador = 3;
+let vidasEnemigo = 3;
+
 function iniciarJuego(){
+    //Ocultamos la seleccion de ataque para que el usuario solo pueda ver la seleccion de jugador
+    let sectionSeleccionarAtaque = document.getElementById("seleccionar-ataque");
+    sectionSeleccionarAtaque.style.display = 'none';
+
+    let sectionReiniciar = document.getElementById("reiniciar")
+    sectionReiniciar.style.display = 'none';
+
     let botonPersonajeJugador = document.getElementById('boton-personaje');
     botonPersonajeJugador.addEventListener('click', seleccionarPersonajeJugador);
 
@@ -12,9 +22,20 @@ function iniciarJuego(){
     botonPatada.addEventListener('click', ataquePatada);
     let botonBarrida = document.getElementById('boton-barrida');
     botonBarrida.addEventListener('click', ataqueBarrida);
+    let botonReiniciar = document.getElementById("boton-reiniciar");
+    botonReiniciar.addEventListener('click', reiniciarJuego)
+
+    //Tenemos que esconder las otras partes del juego
 }
 
 function seleccionarPersonajeJugador(){ //tarea agregar activad a la funcion al alegir el personaje
+    //Una vez seleccionado el personaje ocultamos esta parte para que el usuario se enfoque en los ataques
+    let botonPersonajeJugador = document.getElementById("seleccionar-personaje");
+    botonPersonajeJugador.style.display = 'none';
+    
+    let sectionSeleccionarAtaque = document.getElementById("seleccionar-ataque");
+    sectionSeleccionarAtaque.style.display = 'block';
+
     let inputZuko = document.getElementById('zuko').checked;
     let inputKatara = document.getElementById('katara').checked;
     let inputAang = document.getElementById('toph').checked;
@@ -93,17 +114,64 @@ function ataqueAleatorioEnemigo(){
 }
 
 function fight(){
+
+    let spanVidasJugador = document.getElementById("vidas-jugador");
+    let spanVidasEnemigo = document.getElementById("vidas-enemigo")
+
+
     if(ataqueJugador == ataqueEnemigo){
         crearMensaje("EMPATASTE!")
+        //Aca no hacemos nada. Solo donde perdemos o ganamos
     }else if(ataqueJugador == 'Punio' && ataqueEnemigo == 'Barrida'){
         crearMensaje("GANASTE!")
+        vidasEnemigo -= 1
+        spanVidasEnemigo.innerHTML = vidasEnemigo
     }else if(ataqueJugador == 'Patada' && ataqueEnemigo == 'Punio'){
         crearMensaje("GANASTE!")
+        vidasEnemigo -= 1
+        spanVidasEnemigo.innerHTML = vidasEnemigo
     }else if(ataqueJugador == 'Barrida' && ataqueEnemigo == 'Patada'){
         crearMensaje("GANASTE!")
+        vidasEnemigo -= 1
+        spanVidasEnemigo.innerHTML = vidasEnemigo
     }else{
         crearMensaje("PERDISTE!")
+        vidasJugador -= 1
+        spanVidasJugador.innerHTML = vidasJugador;
     }
+
+    //Revisamos las vidas despues de un COMBATE o Fight!!
+    checkVidas()
+
+}
+
+function crearMensajeFinal(resultadoFinal){
+    let seccionMensaje = document.getElementById('mensajes');//llamamos a la seccion por el ID
+    let parrafo = document.createElement('p');
+    parrafo.innerHTML = resultadoFinal;
+    seccionMensaje.appendChild(parrafo);
+
+    let botonPunio = document.getElementById('boton-punio');
+    botonPunio.disabled = true;
+    let botonPatada = document.getElementById('boton-patada');
+    botonPatada.disabled = true;
+    let botonBarrida = document.getElementById('boton-barrida');
+    botonBarrida.disabled = true;
+}
+
+
+function checkVidas(){
+
+    let sectionReiniciar = document.getElementById("reiniciar")
+
+    if(vidasEnemigo == 0){
+        crearMensajeFinal(`Felicitaciones GANASTE!! 🦾🔥🎊`)
+        sectionReiniciar.style.display = 'block';
+    }else if(vidasJugador == 0){
+        crearMensajeFinal(`Perdiste sos alto manco 🤦‍♂️🤦‍♀️😢`)
+        sectionReiniciar.style.display = 'block';
+    }
+
 }
 
 
@@ -112,7 +180,16 @@ function crearMensaje(resultado){
     let parrafo = document.createElement('p');
     parrafo.innerHTML = `Tu personaje atacó con todo el poder del ${ataqueJugador}, el personaje del enemigo atacó con el poder de la ${ataqueEnemigo} - ${resultado} la ronda 🎉`;
     seccionMensaje.appendChild(parrafo);
+
+
 }
+
+
+function reiniciarJuego(){
+    //Vamos a usar un nuevo metodo llamado "location.reload()" para recargar la pagina
+    location.reload()
+}
+
 
 
 window.addEventListener('load', iniciarJuego);
